@@ -56,13 +56,13 @@
 		
 		<section id="editor" style="margin:0 auto;">
 			<form id="editForm" action="php/editUpdate.php" method="post">
-				<div style="width:100%; height: 30px; margin-top: 10px;">
+				<div style="width:100%; height: 35px; margin-top: 10px;">
 					<span style="font-size:18px">标题：</span>
-					<input type="text" name="title" style="width:95%; height:100%;" />
+					<input type="text" name="title" style="width:90%; height:100%; font-size:18px;" />
 				</div>
 				<div id='edit' style="margin-top: 15px;"></div>
 
-				<input type="text" id="innerCode" name="innerCode" style="width:100%; height:120px;"/>
+				<input type="hidden" id="innerCode" name="innerCode" style="width:100%; height:120px;"/>
 				<div style="width:100%; height: 60px; margin-top: 10px;">
 					<div class="button" onclick="submitForm();">提交</div>
 				</div>

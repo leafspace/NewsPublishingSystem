@@ -31,6 +31,14 @@
 		<script>window.location.href='upgrade-browser.html';</script>
 		<![endif]-->
 	</head>
+		<?php
+			require_once 'php/Classes/MysqlConnect.php';;
+			$mysql_Connect = new MysqlConnect();
+			$mysqli = $mysql_Connect->connect();
+			$sqlStr = "SELECT id, title, time, opened, information FROM news WHERE state = 1;";
+			$result = $mysql_Connect->query($mysqli, $sqlStr);
+			$mysql_Connect->freeresourse($mysqli);
+		?>
 	<body class="user-select">
 		<div id="loginmodal" style="display:none;">
 			<h1>用户登陆</h1>
@@ -124,23 +132,33 @@
 					<div class="title">
 						<h3>最新发布</h3>
 					</div>
-					<article class="excerpt excerpt-1" style="">
-						<a class="focus" href="newsInfo.php" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" >
-							<img class="thumb" data-original="images/201610181739277776.jpg" src="images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: inline;">
-						</a>
-						<header>
-							<a class="cat" href="#" title="MZ-NetBlog主题" >新闻<i></i></a>
-							<h2><a href="newsInfo.php" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" >用DTcms做一个独立博客网站（响应式模板）</a></h2>
-						</header>
-						<p class="meta">
-							<time class="time"><i class="glyphicon glyphicon-time"></i> 2016-10-14</time>
-							<span class="views"><i class="glyphicon glyphicon-eye-open"></i> 216</span> 
-							<a class="comment" href="##comment" title="评论" target="_blank" ><i class="glyphicon glyphicon-comment"></i> 4</a>
-						</p>
-						<p class="note">用DTcms做一个独立博客网站（响应式模板），采用DTcms V4.0正式版（MSSQL）。开发环境：SQL2008R2+VS2010。DTcms V4.0正式版功能修复和优化：1、favicon.ico图标后台上传。（解决要换图标时要连FTP或者开服务器的麻烦）</p>
-					</article>
+					<?php
+						while($row = $result->fetch_assoc()){
+							$mysql_Connect = new MysqlConnect();
+							$mysqli = $mysql_Connect->connect();
+							$sqlStr = "SELECT message,time FROM chat WHERE news_id = ".$row['id'].";";
+							$chatResult = $mysql_Connect->query($mysqli, $sqlStr);
+							$mysql_Connect->freeresourse($mysqli);
 
-					<nav class="pagination" style="display: none;">
+							echo "<article class='excerpt excerpt-1' style=''>";
+							echo "<a class='focus' href='newsInfo.php' title='".$row['title']."' target='_blank' >";
+							echo "	<img class='thumb' data-original='images/201610181739277776.jpg' src='images/201610181739277776.jpg' alt='".$row['title']."'  style='display: inline;'>";
+							echo "</a>";
+							echo "<header>";
+							echo "	<a class='cat' title='新闻'>新闻<i></i></a>";
+							echo "	<h2><a href='newsInfo.php' title='' target='_blank'>".$row['title']."</a></h2>";
+							echo "</header>";
+							echo "<p class='meta'>";
+							echo "	<time class='time'><i class='glyphicon glyphicon-time'></i> ".$row['time']."</time>";
+							echo "	<span class='views'><i class='glyphicon glyphicon-eye-open'></i> ".$row['opened']."</span> ";
+							echo "	<a class='comment' href='comment' title='评论' target='_blank' ><i class='glyphicon glyphicon-comment'></i> 4</a>";
+							echo "</p>";
+							echo "<p class='note'>".substr($row['information'], 0, 60)."</p>";
+							echo "</article>";
+						}
+					?>
+
+					<nav class="pagination" >
 						<ul>
 							<li class="prev-page"></li>
 							<li class="active"><span>1</span></li>
