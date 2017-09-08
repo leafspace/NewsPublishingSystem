@@ -15,6 +15,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<link rel="icon" href="images/logo.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="images/logo.ico" type="image/x-icon" />
+		
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/nprogress.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
@@ -52,27 +55,7 @@
 		</header>
 
 		<section id="editor" style="margin:0 auto;">
-			<table border=1; style="width:100%;  ">
-				<tr>
-					<th style="text-align:center; ">选择</th>
-					<th style="text-align:center; ">ID</th>
-					<th>新闻</th>
-					<th>发表时间</th>
-					<th style="text-align:center; ">审核状态</th>
-				</tr>
-				<tr>
-					<td style="text-align:center; "><input name="" type="checkbox" value="0" /></td>
-					<td style="text-align:center; ">1</td>
-					<td>asfsaf</td>
-					<td>2017-09-05 13:00:00</td>
-					<td style="text-align:center; ">
-						<select name=""> 
-							<option value="0">同意</option> 
-							<option value="1">拒绝</option> 
-						</select>
-					</td>
-				</tr>
-			</table>
+			<div id='edit' style="margin-top: 30px;"></div>
 			<div style="width:100%; height: 60px; margin-top: 10px;">
 				<a href="index.html"><div class="button">提交</div></a>
 			</div>

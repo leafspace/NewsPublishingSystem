@@ -7,6 +7,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
+		<link rel="icon" href="images/logo.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="images/logo.ico" type="image/x-icon" />
+
 		<link rel="stylesheet" type="text/css" media="all" href="css/loginstyle.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/nprogress.css">
@@ -31,13 +34,13 @@
 	<body class="user-select">
 		<div id="loginmodal" style="display:none;">
 			<h1>用户登陆</h1>
-			<form id="loginform" name="loginform" method="post" action="index.html">
+			<form id="loginform" name="loginform" method="post" action="php/login.php">
 				<label for="username">用户名:</label>
 				<input type="text" name="username" id="username" class="txtfield" tabindex="1">
 				<label for="password">密 码:</label>
 				<input type="password" name="password" id="password" class="txtfield" tabindex="2">
 				<div class="center">
-					<input type="submit" name="loginbtn" id="loginbtn" class="flatbtn-blu hidemodal" value="登 陆" tabindex="3">
+					<input type="button" class="flatbtn-blu hidemodal" value="登 陆" onclick="document.getElementById('loginform').submit();" tabindex="3">
 				</div>
 			</form>
 		</div>
@@ -48,7 +51,13 @@
 					<div class="header-topbar hidden-xs link-border">
 						<ul class="site-nav topmenu">
 							<li>
-								<a href="#loginmodal" title="登陆" id="modaltrigger" >登陆</a>
+								<?php
+									if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
+										echo "<a>".$_SESSION['username']."</a>";
+									} else {
+										echo "<a href='#loginmodal' title='登陆' id='modaltrigger' >登陆</a>";
+									}
+								?>
 							</li>
 							<li>
 								<a href="#" title="RSS订阅" >
@@ -120,7 +129,7 @@
 							<img class="thumb" data-original="images/201610181739277776.jpg" src="images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: inline;">
 						</a>
 						<header>
-							<a class="cat" href="#" title="MZ-NetBlog主题" >MZ-NetBlog主题<i></i></a>
+							<a class="cat" href="#" title="MZ-NetBlog主题" >新闻<i></i></a>
 							<h2><a href="newsInfo.html" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" >用DTcms做一个独立博客网站（响应式模板）</a></h2>
 						</header>
 						<p class="meta">
@@ -192,14 +201,23 @@
 				<div class="widget widget_sentence">
 					<h3>友情链接</h3>
 					<div class="widget-sentence-link">
-						<a href="#" title="网站建设" target="_blank" >网站建设</a>&nbsp;&nbsp;&nbsp;
+						<a href="https://www.ithome.com/" title="IT之家" target="_blank" >IT之家</a>&nbsp;&nbsp;&nbsp;
+					</div>
+					<div class="widget-sentence-link">
+						<a href="http://www.geekpark.net/" title="极客公园" target="_blank" >极客公园</a>&nbsp;&nbsp;&nbsp;
+					</div>
+					<div class="widget-sentence-link">
+						<a href="http://www.pcbeta.com/" title="远景在线" target="_blank" >远景在线</a>&nbsp;&nbsp;&nbsp;
+					</div>
+					<div class="widget-sentence-link">
+						<a href="http://www.chinamac.com/" title="苹果在线" target="_blank" >苹果在线</a>&nbsp;&nbsp;&nbsp;
 					</div>
 				</div>
 			</aside>
 		</section>
 
 		<footer class="footer">
-			<div class="container"><p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="index.html">在线新闻提交系统</a></p></div>
+			<div class="container"><p>Copyright &copy; 2016.Company name All rights reserved.<a href="#">在线新闻提交系统</a></p></div>
 			<div id="gotop"><a class="gotop"></a></div>
 		</footer>
 	</body>

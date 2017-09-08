@@ -15,12 +15,28 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<link rel="icon" href="images/logo.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="images/logo.ico" type="image/x-icon" />
+		
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/nprogress.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
 	</head>
+		<?php
+			@session_id($_GET['sid']);
+			@session_start();
+			$sid = @session_id();
 
+			if (isset($_SESSION['id']) && isset($_SESSION['username'])) {
+				$id = $_SESSION['id'];
+				$username = $_SESSION['username'];
+			} else {
+				$url = "index.php";
+				Header("Location: $url"); 
+				exit;
+			}
+		?>
 	<body>
 		<header class="header">
 			<nav class="navbar navbar-default" id="navbar">
@@ -44,7 +60,8 @@
 							</div>
 						</form>
 						<ul class="nav navbar-nav navbar-right">
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.html">首页</a></li>
+							<?php echo "<li><a>$username</a></li>"; ?>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php">首页</a></li>
 						</ul>
 					</div>
 				</div>
@@ -52,14 +69,62 @@
 		</header>
 
 		<section id="editor" style="margin:0 auto;">
-			<div id='edit' style="margin-top: 30px;"></div>
+			<table border=1; style="width:100%;  ">
+				<form id="auditForm" action="php/audit.php" method="post">
+					<input type="hidden" name="sid" value="<?php echo $sid; ?>">
+					<tr>
+						<th style="text-align:center; ">选择</th>
+						<th style="text-align:center; ">ID</th>
+						<th>新闻</th>
+						<th>发表时间</th>
+						<th style="text-align:center; ">审核状态</th>
+					</tr>
+					<?php
+						error_reporting(E_ALL^E_NOTICE^E_WARNING^E_DEPRECATED);
+						define("mysql_server_name", "localhost");
+						define("mysql_username", "root");
+						define("mysql_password", "123456");
+					
+						$mysqli = new mysqli();
+						$mysqli->connect($mysql_server_name, $mysql_username, $mysql_password, 'news_system');
+						if (mysqli_connect_error()) {
+							echo mysqli_connect_error();
+							exit;
+						}
+						$mysqli->set_charset("utf8");
+						
+						$sqlStr = "SELECT id, title, time FROM news WHERE state = 0;";
+						$result = $mysqli->query($sqlStr);
+						if ($result === false) {
+							echo $mysqli->error;
+							exit;
+						}
+
+						while($row = $result->fetch_assoc()){
+							echo "<tr>";
+							echo "<td style='text-align:center;'><input name='choice[]' type='checkbox' value='".$row['id']."' /></td>";
+							echo "	<td style='text-align:center;'>".$row['id']."</td>";
+							echo "	<td>".$row['title']."</td>";
+							echo "	<td>".$row['time']."</td>";
+							echo "	<td style='text-align:center;'>";
+							echo "		<select name='audit".$row['id']."'> ";
+							echo "			<option value='1'>同意</option>";
+							echo "			<option value='-1'>拒绝</option>";
+							echo "		</select>";
+							echo "	</td>";
+							echo "</tr>";
+						}
+						$mysqli->close();
+					?>
+				</form>
+			</table>
 			<div style="width:100%; height: 60px; margin-top: 10px;">
-				<a href="index.html"><div class="button">提交</div></a>
+				<div class="button" onclick="document.getElementById('auditForm').submit();">提交</div>
 			</div>
 		</section>
 
 		<footer class="footer" style="position: fixed; bottom: 0; width: 100%; ">
-			<div class="container"><p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="index.html">在线新闻提交系统</a></p></div>
+			<div class="container"><p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="index.php">在线新闻提交系统</a></p></div>
 			<div id="gotop"><a class="gotop"></a></div>
 		</footer>
 	</body>
