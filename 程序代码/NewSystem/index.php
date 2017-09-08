@@ -86,7 +86,7 @@
 							</div>
 						</form>
 						<ul class="nav navbar-nav navbar-right">
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.html">首页</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="#">首页</a></li>
 						</ul>
 					</div>
 				</div>
@@ -125,12 +125,12 @@
 						<h3>最新发布</h3>
 					</div>
 					<article class="excerpt excerpt-1" style="">
-						<a class="focus" href="newsInfo.html" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" >
+						<a class="focus" href="newsInfo.php" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" >
 							<img class="thumb" data-original="images/201610181739277776.jpg" src="images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: inline;">
 						</a>
 						<header>
 							<a class="cat" href="#" title="MZ-NetBlog主题" >新闻<i></i></a>
-							<h2><a href="newsInfo.html" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" >用DTcms做一个独立博客网站（响应式模板）</a></h2>
+							<h2><a href="newsInfo.php" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" >用DTcms做一个独立博客网站（响应式模板）</a></h2>
 						</header>
 						<p class="meta">
 							<time class="time"><i class="glyphicon glyphicon-time"></i> 2016-10-14</time>
@@ -158,7 +158,7 @@
 					<ul class="nav nav-tabs" role="tablist">
 						<li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" >统计信息</a></li>
 						<li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" >联系站长</a></li>
-						<li style="background:#00DB00;"><a href="editNews.html" aria-controls="contact" >编辑新闻</a></li>
+						<li style="background:#00DB00;"><a href="editNews.php" aria-controls="contact" >编辑新闻</a></li>
 					</ul>
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane contact active" id="notice">
@@ -187,7 +187,7 @@
 					<h3>最新评论文章</h3>
 					<ul>            
 						<li>
-							<a title="用DTcms做一个独立博客网站（响应式模板）" href="newsInfo.html" >
+							<a title="用DTcms做一个独立博客网站（响应式模板）" href="newsInfo.php" >
 								<span class="thumbnail">
 									<img class="thumb" data-original="images/201610181739277776.jpg" src="images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
 								</span>
