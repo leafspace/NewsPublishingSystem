@@ -29,6 +29,14 @@
 		<script>window.location.href='upgrade-browser.html';</script>
 		<![endif]-->
 	</head>
+		<?php
+			require_once 'php/Classes/MysqlConnect.php';
+			if (!isset($_GET['newsID'])) {
+				$url = "index.php";
+				Header("Location: $url"); 
+			}
+			$newsID = $_GET['newsID'];
+		?>
 	<body class="user-select single">
 		<header class="header">
 			<nav class="navbar navbar-default" id="navbar">
@@ -53,93 +61,111 @@
 						<h1 class="logo hvr-bounce-in"><a href="#" title="在线新闻发布系统"><img src="" alt="在线新闻发布系统"></a></h1>
 					</div>
 					<div class="collapse navbar-collapse" id="header-navbar">
-						<form class="navbar-form visible-xs" action="/Search" method="post">
+						<form class="navbar-form visible-xs" action="index.php" method="post">
 							<div class="input-group">
 								<input type="text" name="keyword" class="form-control" placeholder="请输入关键字" maxlength="20" autocomplete="off">
 								<span class="input-group-btn">
-									<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+									<button class="btn btn-default btn-search" type="submit">搜索</button>
 								</span> 
 							</div>
 						</form>
 						<ul class="nav navbar-nav navbar-right">
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.html">首页</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php">首页</a></li>
 						</ul>
 					</div>
 				</div>
 			</nav>
 		</header>
 
+		<?php
+			$mysql_Connect = new MysqlConnect();
+			$mysqli = $mysql_Connect->connect();
+			$sqlStr = "UPDATE news SET opened = opened + 1 WHERE id = ".$newsID.";";
+			$result = $mysql_Connect->query($mysqli, $sqlStr);
+			$mysql_Connect->freeresourse($mysqli);
+
+			$mysql_Connect = new MysqlConnect();
+			$mysqli = $mysql_Connect->connect();
+			$sqlStr = "SELECT title, time, opened, information FROM news WHERE id = ".$newsID.";";
+			$result = $mysql_Connect->query($mysqli, $sqlStr);
+			$mysql_Connect->freeresourse($mysqli);
+			$row = $result->fetch_assoc();
+
+			$mysql_Connect = new MysqlConnect();
+			$mysqli = $mysql_Connect->connect();
+			$sqlStr = "SELECT message, time FROM chat WHERE news_id = ".$newsID." ORDER BY time DESC;";
+			$result = $mysql_Connect->query($mysqli, $sqlStr);
+			$mysql_Connect->freeresourse($mysqli);
+			$num_chat = $result->num_rows;
+		?>
 		<section class="container">
 			<div class="content-wrap">
 				<div class="content">
 					<header class="article-header">
-						<h1 class="article-title"><a href="#" title="用DTcms做一个独立博客网站（响应式模板）" >用DTcms做一个独立博客网站（响应式模板）</a></h1>
+						<h1 class="article-title"><a href="#" title="<?php echo $row['title']; ?>" ><?php echo $row['title']; ?></a></h1>
 						<div class="article-meta">
 							<span class="item article-meta-time">
-								<time class="time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="发表时间：2016-10-14">
-									<i class="glyphicon glyphicon-time"></i> 2016-10-14
+								<time class="time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="发表时间：<?php echo $row['time']; ?>">
+									<i class="glyphicon glyphicon-time"></i> <?php echo $row['time']; ?>
 								</time>
 							</span> 
 							<span class="item article-meta-source" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="来源：在线新闻发布系统">
 								<i class="glyphicon glyphicon-globe"></i> 在线新闻发布系统
 							</span> 
-							<span class="item article-meta-category" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="MZ-NetBlog主题">
+							<span class="item article-meta-category" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="即时新闻">
 								<i class="glyphicon glyphicon-list"></i> 
-								<a href="#" title="MZ-NetBlog主题" >MZ-NetBlog主题</a>
+								<a href="#" title="即时新闻" >即时新闻</a>
 							</span> 
-							<span class="item article-meta-views" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="浏览量：219">
-								<i class="glyphicon glyphicon-eye-open"></i> 219
+							<span class="item article-meta-views" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="浏览量：<?php echo $row['opened']; ?>">
+								<i class="glyphicon glyphicon-eye-open"></i> <?php echo $row['opened']; ?>
 							</span> 
 							<span class="item article-meta-comment" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="评论量">
-								<i class="glyphicon glyphicon-comment"></i> 4
+								<i class="glyphicon glyphicon-comment"></i> <?php  echo $num_chat?>
 							</span> 
 						</div>
 					</header>
 
 					<article class="article-content">
-						<p><img data-original="images/201610181557196870.jpg" src="images/201610181557196870.jpg" alt="" /></p>
-						<p>文章效果示例，文字文字文字文字</p>
-						<pre class="prettyprint lang-cs">
-							代码示例：
-							public static double JieCheng(int number)
-							{
-							if (number == 0)
-							{
-							return 0;
-							}
-
-							//初始值必须设置为1
-							double result = 1; 
-
-							for (int i = number; i &gt;= 1; i--)
-							{
-							result = result*i;
-							}
-							return result;
-							}
-						</pre>
+						<p><img data-original="images/advertising2.jpg" src="images/advertising2.jpg" alt="" /></p>
+						<div class="prettyprint lang-cs">
+							<?php echo $row['information']; ?>
+						</div>
 					</article>
 					<div class="article-tags">
 						标签：
-						<a href="#list/2/" rel="tag" >DTcms博客</a>
 						<a href="#list/3/" rel="tag" >在线新闻发布系统</a>
-						<a href="#list/4/" rel="tag" >独立博客</a>
-						<a href="#list/5/" rel="tag" >修复优化</a>
+						<a href="#list/4/" rel="tag" >即时信息</a>
+						<a href="#list/5/" rel="tag" >游客</a>
 					</div>
 					<div class="relates">
 						<div class="title"><h3>相关推荐</h3></div>
 						<ul>
-							<li><a href="#" title="" >用DTcms做一个独立博客网站（响应式模板）-MZ-NetBlog主题</a></li>
+							<?php
+								$mysql_Connect = new MysqlConnect();
+								$mysqli = $mysql_Connect->connect();
+								$sqlStr = "SELECT id, title FROM news ORDER BY time DESC;";
+								$result = $mysql_Connect->query($mysqli, $sqlStr);
+								$mysql_Connect->freeresourse($mysqli);
+
+								$i = 0;
+								while($row = $result->fetch_assoc()){
+									echo "<li><a href='newInfo.php?newsID=".$row['id']."' title='".$row['title']."' >".$row['title']."</a></li>";
+									if (++$i == 5) {
+										break;
+									}
+								}
+							?>
 						</ul>
 					</div>
 					<div class="title" id="comment">
 						<h3>评论</h3>
 					</div>
 					<div id="respond">
-						<form id="comment-form" name="comment-form" action="" method="POST">
+						<form id="comment-form" name="comment-form" action="php/comment.php" method="post">
 							<div class="comment">
-								<input name="" id="" class="form-control" size="22" placeholder="您的昵称（必填）" maxlength="15" autocomplete="off" tabindex="1" type="text">
-								<input name="" id="" class="form-control" size="22" placeholder="您的网址或邮箱（非必填）" maxlength="58" autocomplete="off" tabindex="2" type="text">
+								<input type="hidden" name="newsID" value="<?php echo $newsID;?>" >
+								<input name="username" id="" class="form-control" size="22" value="在线新闻发布系统-游客" readonly="readonly" maxlength="15" autocomplete="off" tabindex="1" type="text">
+								<input name="email" id="" class="form-control" size="22" placeholder="您的网址或邮箱（非必填）" maxlength="58" autocomplete="off" tabindex="2" type="text">
 								<div class="comment-box">
 									<textarea placeholder="您的评论或留言（必填）" name="comment-textarea" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
 									<div class="comment-ctrl">
@@ -159,27 +185,29 @@
 					</div>
 
 					<div id="postcomments">
-						<ol id="comment_list" class="commentlist">        
-							<li class="comment-content">
-								<span class="comment-f">#2</span>
-								<div class="comment-main">
-									<p>
-										<a class="address" href="#" rel="nofollow" target="_blank">在线新闻发布系统</a>
-										<span class="time">(2016/10/28 11:41:03)</span><br>
-										不错的网站主题，看着相当舒服
-									</p>
-								</div>
-							</li>
-							<li class="comment-content">
-								<span class="comment-f">#1</span>
-								<div class="comment-main">
-									<p>
-										<a class="address" href="#" rel="nofollow" target="_blank">在线新闻发布系统</a>
-										<span class="time">(2016/10/14 21:02:39)</span><br>
-										博客做得好漂亮哦！
-									</p>
-								</div>
-							</li>
+						<ol id="comment_list" class="commentlist">
+							<?php
+								$mysql_Connect = new MysqlConnect();
+								$mysqli = $mysql_Connect->connect();
+								$sqlStr = "SELECT message, time FROM chat WHERE news_id = ".$newsID." ORDER BY time DESC;";
+								$result = $mysql_Connect->query($mysqli, $sqlStr);
+								$mysql_Connect->freeresourse($mysqli);
+
+								$i = $result->num_rows;
+								while($row = $result->fetch_assoc()){
+									echo "<li class='comment-content'>";
+									echo "	<span class='comment-f'>#".$i--."</span>";
+									echo "	<div class='comment-main'>";
+									echo "		<p>";
+									echo "			<a class='address' href='#' rel='nofollow' target='_blank'>在线新闻发布系统-游客</a>";
+									echo "			<span class='time'>".$row['time']."</span><br>";
+									echo "			".$row['message']."";
+									echo "		</p>";
+									echo "	</div>";
+									echo "</li>";
+								}
+
+							?>
 						</ol>
 					</div>
 				</div>
@@ -187,57 +215,61 @@
 
 			<aside class="sidebar">
 				<div class="fixed">
-					<div class="widget widget-tabs">
-						<ul class="nav nav-tabs" role="tablist">
-							<li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" draggable="false">统计信息</a></li>
-							<li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" draggable="false">联系站长</a></li>
-						</ul>
-						<div class="tab-content">
-							<div role="tabpanel" class="tab-pane contact active" id="notice">
-								<h2>日志总数:888篇</h2>
-								<h2>网站运行:<span id="sitetime">88天 </span></h2>
-							</div>
-							<div role="tabpanel" class="tab-pane contact" id="contact">
-								<h2>QQ:
-									<a href="" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="" draggable="false" data-original-title="QQ:577211782">577211782</a>
-								</h2>
-								<h2>Email:
-									<a href="mailto:577211782@qq.com" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title="" draggable="false" data-original-title="Email:577211782@qq.com">577211782@qq.com</a>
-								</h2>
-							</div>
-						</div>
-					</div>
 					<div class="widget widget_search">
-						<form class="navbar-form" action="/Search" method="post">
+						<form class="navbar-form" action="index.php" method="get">
 							<div class="input-group">
 								<input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
 								<span class="input-group-btn">
-									<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+									<button class="btn btn-default btn-search" type="submit">搜索</button>
 								</span> 
 							</div>
 						</form>
 					</div>
 				</div>
+				<?php
+					$mysql_Connect = new MysqlConnect();
+					$mysqli = $mysql_Connect->connect();
+					$sqlStr = "SELECT news_id, message, time FROM chat ORDER BY time DESC;";
+					$result = $mysql_Connect->query($mysqli, $sqlStr);
+					$mysql_Connect->freeresourse($mysqli);
+					$num_rows = $result->num_rows;
+					if ($num_rows > 5) {
+						$num_rows = 5;
+					}
+				?>
 				<div class="widget widget_hot">
 					<h3>最新评论文章</h3>
 					<ul>
-						<li>
-							<a title="用DTcms做一个独立博客网站（响应式模板）" href="#" >
-								<span class="thumbnail">
-									<img class="thumb" data-original="images/201610181739277776.jpg" src="images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-								</span>
-								<span class="text">用DTcms做一个独立博客网站（响应式模板）</span>
-								<span class="muted"><i class="glyphicon glyphicon-time"></i>2016-11-01</span>
-								<span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span>
-							</a>
-						</li>
+						<?php
+							$i = 0;
+							while($row = $result->fetch_assoc()){
+								$mysql_Connect = new MysqlConnect();
+								$mysqli = $mysql_Connect->connect();
+								$sqlStr = "SELECT title FROM news WHERE id = ".$row['news_id'].";";
+								$son_result = $mysql_Connect->query($mysqli, $sqlStr);
+								$mysql_Connect->freeresourse($mysqli);
+								$son_row = $son_result->fetch_assoc();
+
+								echo "<li>";
+								echo "	<a title='".$son_row['title']."' href='newsInfo.php?newsID=".$row['news_id']."' >";
+								echo "		<span class='thumbnail'>";
+								echo "			<img class='thumb' data-original='images/deault_big.jpg' src='images/deault_big.jpg' alt='".$son_row['title']."'  style='display: block;'>";
+								echo "		</span>";
+								echo "		<span class='text'>".$row['message']."</span>";
+								echo "		<span class='muted'><i class='glyphicon glyphicon-time'></i>".$row['time']."</span>";
+								echo "		<span class='muted'><i class='glyphicon glyphicon-eye-open'></i>".rand(10, 100)."</span>";
+								echo "	</a>";
+								echo "</li>";
+							}
+						?>
+						
 					</ul>
 				</div>
 			</aside>
 		</section>
 
 		<footer class="footer">
-			<div class="container"><p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="index.html">在线新闻提交系统</a></p></div>
+			<div class="container"><p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="index.php">在线新闻提交系统</a></p></div>
 			<div id="gotop"><a class="gotop"></a></div>
 		</footer>
 	</body>

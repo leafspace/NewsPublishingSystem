@@ -32,10 +32,15 @@
 		<![endif]-->
 	</head>
 		<?php
-			require_once 'php/Classes/MysqlConnect.php';;
+			require_once 'php/Classes/MysqlConnect.php';
+			require_once 'php/Classes/StringHandle.php';
 			$mysql_Connect = new MysqlConnect();
 			$mysqli = $mysql_Connect->connect();
-			$sqlStr = "SELECT id, title, time, opened, information FROM news WHERE state = 1;";
+			if (isset($_GET['keyword'])) {
+				$sqlStr = "SELECT id, title, time, opened, information FROM news WHERE state = 1 AND title LIKE '%".$_GET['keyword']."%' ORDER BY time DESC;";
+			} else {
+				$sqlStr = "SELECT id, title, time, opened, information FROM news WHERE state = 1 ORDER BY time DESC;";
+			}
 			$result = $mysql_Connect->query($mysqli, $sqlStr);
 			$mysql_Connect->freeresourse($mysqli);
 			$num_rows = $result->num_rows;
@@ -86,11 +91,11 @@
 						<h1 class="logo hvr-bounce-in"><a href="#" title="在线新闻发布系统"><img src="" alt="在线新闻发布系统"></a></h1>
 					</div>
 					<div class="collapse navbar-collapse" id="header-navbar">
-						<form class="navbar-form visible-xs" action="" method="post">
+						<form class="navbar-form visible-xs" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 							<div class="input-group">
 								<input type="text" name="keyword" class="form-control" placeholder="请输入关键字" maxlength="20" autocomplete="off">
 								<span class="input-group-btn">
-									<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+									<button class="btn btn-default btn-search" type="submit">搜索</button>
 								</span>
 							</div>
 						</form>
@@ -171,20 +176,21 @@
 							$mysql_Connect->freeresourse($mysqli);
 							$num_chat = $chatResult->num_rows;
 
+							$stringHandle = new StringHandle();
 							echo "<article class='excerpt excerpt-1' style=''>";
-							echo "<a class='focus' href='newsInfo.php' title='".$row['title']."' target='_blank' >";
+							echo "<a class='focus' href='newsInfo.php?newsID=".$row['id']."' title='".$row['title']."' target='_blank' >";
 							echo "	<img class='thumb' data-original='images/deault_big.jpg' src='images/deault_big.jpg' alt='".$row['title']."'  style='display: inline;'>";
 							echo "</a>";
 							echo "<header>";
 							echo "	<a class='cat' title='新闻'>新闻<i></i></a>";
-							echo "	<h2><a href='newsInfo.php' title='' target='_blank'>".$row['title']."</a></h2>";
+							echo "	<h2><a href='newsInfo.php?newsID=".$row['id']."' title='' target='_blank'>".$row['title']."</a></h2>";
 							echo "</header>";
 							echo "<p class='meta'>";
 							echo "	<time class='time'><i class='glyphicon glyphicon-time'></i> ".$row['time']."</time>";
 							echo "	<span class='views'><i class='glyphicon glyphicon-eye-open'></i> ".$row['opened']."</span> ";
 							echo "	<a class='comment' title='评论' target='_blank' ><i class='glyphicon glyphicon-comment'></i> ".$num_chat."</a>";
 							echo "</p>";
-							echo "<p class='note'>".substr($row['information'], 0, 60)."</p>";
+							echo "<p class='note'>".$stringHandle->findDivText($row['information'])."</p>";
 							echo "</article>";
 						}
 					?>
@@ -226,7 +232,7 @@
 					<ul class="nav nav-tabs" role="tablist">
 						<li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" >统计信息</a></li>
 						<li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" >联系站长</a></li>
-						<li style="background:#00DB00;"><a href="editNews.php" aria-controls="contact" >编辑新闻</a></li>
+						<li style="background:#00DB00;"><a href="editNews.php" aria-controls="contact" style="color:#FFFFFF">编辑新闻</a></li>
 					</ul>
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane contact active" id="notice">
@@ -241,11 +247,11 @@
 					</div>
 					</div>
 						<div class="widget widget_search">
-						<form class="navbar-form" action="/Search" method="post">
+						<form class="navbar-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
 							<div class="input-group">
 								<input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
 								<span class="input-group-btn">
-									<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+									<button class="btn btn-default btn-search" type="submit">搜索</button>
 								</span>
 							</div>
 						</form>
@@ -285,9 +291,12 @@
 								echo "		<span class='muted'><i class='glyphicon glyphicon-eye-open'></i>".rand(10, 100)."</span>";
 								echo "	</a>";
 								echo "</li>";
+
+								if (++$i == 10) {
+									break;
+								}
 							}
 						?>
-						
 					</ul>
 				</div>
 				<div class="widget widget_sentence">
