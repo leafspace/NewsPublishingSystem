@@ -38,6 +38,7 @@
 			$sqlStr = "SELECT id, title, time, opened, information FROM news WHERE state = 1;";
 			$result = $mysql_Connect->query($mysqli, $sqlStr);
 			$mysql_Connect->freeresourse($mysqli);
+			$num_rows = $result->num_rows;
 		?>
 	<body class="user-select">
 		<div id="loginmodal" style="display:none;">
@@ -73,7 +74,7 @@
 								</a>
 							</li>
 						</ul>
-						勤记录 懂分享
+						分享最即时的信息
 					</div>
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false"> 
@@ -108,15 +109,20 @@
 						<ol class="carousel-indicators">
 							<li data-target="#focusslide" data-slide-to="0" class="active"></li>
 							<li data-target="#focusslide" data-slide-to="1"></li>
+							<li data-target="#focusslide" data-slide-to="2"></li>
 						</ol>
 						<div class="carousel-inner" role="listbox">
 							<div class="item active">
-								<a href="#" target="_blank" title="在线新闻发布系统源码" >
-								<img src="images//201610181557196870.jpg" alt="在线新闻发布系统源码" class="img-responsive"></a>
+								<a href="#" target="_blank" title="在线新闻发布系统" >
+								<img src="images//advertising1.jpg" alt="在线新闻发布系统" class="img-responsive"></a>
 							</div>
 							<div class="item">
-								<a href="#" target="_blank" title="专业网站建设" >
-								<img src="images//201610241227558789.jpg" alt="专业网站建设" class="img-responsive"></a>
+								<a href="#" target="_blank" title="在线新闻发布系统" >
+								<img src="images//advertising2.jpg" alt="在线新闻发布系统" class="img-responsive"></a>
+							</div>
+							<div class="item">
+								<a href="#" target="_blank" title="在线新闻发布系统" >
+								<img src="images//advertising3.jpg" alt="在线新闻发布系统" class="img-responsive"></a>
 							</div>
 						</div>
 						<a class="left carousel-control" href="#focusslide" role="button" data-slide="prev" rel="nofollow"> 
@@ -133,16 +139,41 @@
 						<h3>最新发布</h3>
 					</div>
 					<?php
+						if ($num_rows % 10 > 0) {
+							$pages = $num_rows / 10 + 1;
+						} else {
+							$pages = $num_rows / 10;
+						}
+						$pages = floor($pages);
+
+						$index = 1;
+						if (isset($_GET['index'])) {
+							$index = $_GET['index'];
+							if ($index <= 0 || $index > $pages) {
+								$index = 1;
+							}
+						}
+
+						$i = 0;
 						while($row = $result->fetch_assoc()){
+							if ($i < ($index -1) * 10 ) {
+								$i++;
+								continue;
+							} else if ($i > ($index * 10 - 1)) {
+								break;
+							}
+							$i++;
+
 							$mysql_Connect = new MysqlConnect();
 							$mysqli = $mysql_Connect->connect();
 							$sqlStr = "SELECT message,time FROM chat WHERE news_id = ".$row['id'].";";
 							$chatResult = $mysql_Connect->query($mysqli, $sqlStr);
 							$mysql_Connect->freeresourse($mysqli);
+							$num_chat = $chatResult->num_rows;
 
 							echo "<article class='excerpt excerpt-1' style=''>";
 							echo "<a class='focus' href='newsInfo.php' title='".$row['title']."' target='_blank' >";
-							echo "	<img class='thumb' data-original='images/201610181739277776.jpg' src='images/201610181739277776.jpg' alt='".$row['title']."'  style='display: inline;'>";
+							echo "	<img class='thumb' data-original='images/deault_big.jpg' src='images/deault_big.jpg' alt='".$row['title']."'  style='display: inline;'>";
 							echo "</a>";
 							echo "<header>";
 							echo "	<a class='cat' title='新闻'>新闻<i></i></a>";
@@ -151,7 +182,7 @@
 							echo "<p class='meta'>";
 							echo "	<time class='time'><i class='glyphicon glyphicon-time'></i> ".$row['time']."</time>";
 							echo "	<span class='views'><i class='glyphicon glyphicon-eye-open'></i> ".$row['opened']."</span> ";
-							echo "	<a class='comment' href='comment' title='评论' target='_blank' ><i class='glyphicon glyphicon-comment'></i> 4</a>";
+							echo "	<a class='comment' title='评论' target='_blank' ><i class='glyphicon glyphicon-comment'></i> ".$num_chat."</a>";
 							echo "</p>";
 							echo "<p class='note'>".substr($row['information'], 0, 60)."</p>";
 							echo "</article>";
@@ -160,11 +191,30 @@
 
 					<nav class="pagination" >
 						<ul>
-							<li class="prev-page"></li>
-							<li class="active"><span>1</span></li>
-							<li>2</li>
-							<li class="next-page">下一页</li>
-							<li><span>共 2 页</span></li>
+							<?php
+								if ($index <= 1) {
+									echo "<li class='prev-page'><span>上一页</span></li>";
+								} else {
+									echo "<li class='prev-page'><a href='index.php?index=".($index - 1)."'><span>上一页</span></a></li>";
+								}
+								
+								for ($i = $index - 3; $i <= $index + 3; $i++) {
+									if ($i == $index) {
+										echo "<li class='active'><span>".$index."</span></li>";
+									} else {
+										if ($i > 0 && $i <= $pages) {
+											echo "<li><a href='index.php?index=".$i."'><span>".$i."</span></a></li>";
+										}
+									}
+								}
+
+								if ($index >= $pages) {
+									echo "<li class='next-page'><span>下一页</span></li>";
+								} else {
+									echo "<li class='next-page'><a href='index.php?index=".($index + 1)."'><span>下一页</span></a></li>";
+								}
+								echo "<li><span>共 ".$pages." 页</span></li>";
+							?>
 						</ul>
 					</nav>
 				</div>
@@ -180,8 +230,8 @@
 					</ul>
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane contact active" id="notice">
-							<h2>日志总数:888篇</h2>
-							<h2>网站运行:<span id="sitetime">88天 </span></h2>
+							<h2>日志总数:<?php echo $num_rows; ?>篇</h2>
+							<h2>网站运行:<span id="sitetime"><?php echo(rand(10, 100)); ?>天 </span></h2>
 						</div>
 						<div role="tabpanel" class="tab-pane contact" id="contact">
 							<h2>Email:18123456789@163.com
@@ -201,19 +251,43 @@
 						</form>
 					</div>
 				</div>
+				<?php
+					$mysql_Connect = new MysqlConnect();
+					$mysqli = $mysql_Connect->connect();
+					$sqlStr = "SELECT news_id, message, time FROM chat ORDER BY time DESC;";
+					$result = $mysql_Connect->query($mysqli, $sqlStr);
+					$mysql_Connect->freeresourse($mysqli);
+					$num_rows = $result->num_rows;
+					if ($num_rows > 5) {
+						$num_rows = 5;
+					}
+				?>
 				<div class="widget widget_hot">
 					<h3>最新评论文章</h3>
-					<ul>            
-						<li>
-							<a title="用DTcms做一个独立博客网站（响应式模板）" href="newsInfo.php" >
-								<span class="thumbnail">
-									<img class="thumb" data-original="images/201610181739277776.jpg" src="images/201610181739277776.jpg" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
-								</span>
-								<span class="text">用DTcms做一个独立博客网站（响应式模板）</span>
-								<span class="muted"><i class="glyphicon glyphicon-time"></i>2016-11-01</span>
-								<span class="muted"><i class="glyphicon glyphicon-eye-open"></i>88</span>
-							</a>
-						</li>
+					<ul>
+						<?php
+							$i = 0;
+							while($row = $result->fetch_assoc()){
+								$mysql_Connect = new MysqlConnect();
+								$mysqli = $mysql_Connect->connect();
+								$sqlStr = "SELECT title FROM news WHERE id = ".$row['news_id'].";";
+								$son_result = $mysql_Connect->query($mysqli, $sqlStr);
+								$mysql_Connect->freeresourse($mysqli);
+								$son_row = $son_result->fetch_assoc();
+
+								echo "<li>";
+								echo "	<a title='".$son_row['title']."' href='newsInfo.php?newsID=".$row['news_id']."' >";
+								echo "		<span class='thumbnail'>";
+								echo "			<img class='thumb' data-original='images/deault_big.jpg' src='images/deault_big.jpg' alt='".$son_row['title']."'  style='display: block;'>";
+								echo "		</span>";
+								echo "		<span class='text'>".$row['message']."</span>";
+								echo "		<span class='muted'><i class='glyphicon glyphicon-time'></i>".$row['time']."</span>";
+								echo "		<span class='muted'><i class='glyphicon glyphicon-eye-open'></i>".rand(10, 100)."</span>";
+								echo "	</a>";
+								echo "</li>";
+							}
+						?>
+						
 					</ul>
 				</div>
 				<div class="widget widget_sentence">
