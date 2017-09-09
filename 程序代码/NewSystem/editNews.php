@@ -55,10 +55,14 @@
 		</header>
 		
 		<section id="editor" style="margin:0 auto;">
-			<form id="editForm" action="php/editUpdate.php" method="post">
+			<form id="editForm" action="php/editUpdate.php" method="post" enctype="multipart/form-data" >
 				<div style="width:100%; height: 35px; margin-top: 10px;">
-					<span style="font-size:18px">标题：</span>
+					<label style="font-size:18px">标题：</label>
 					<input type="text" name="title" style="width:90%; height:100%; font-size:18px;" />
+				</div>
+				<div style="width:100%; height: 35px; margin-top: 10px;">
+					<label style="font-size:18px; float:left;">图片文件：</label>
+					<input type="file" name="file" id="file" style="width:90%; height:100%; font-size:18px; float:right;" />
 				</div>
 				<div id='edit' style="margin-top: 15px;"></div>
 

@@ -37,9 +37,9 @@
 			$mysql_Connect = new MysqlConnect();
 			$mysqli = $mysql_Connect->connect();
 			if (isset($_GET['keyword'])) {
-				$sqlStr = "SELECT id, title, time, opened, information FROM news WHERE state = 1 AND title LIKE '%".$_GET['keyword']."%' ORDER BY time DESC;";
+				$sqlStr = "SELECT id, title, time, opened, information, image FROM news WHERE state = 1 AND title LIKE '%".$_GET['keyword']."%' ORDER BY time DESC;";
 			} else {
-				$sqlStr = "SELECT id, title, time, opened, information FROM news WHERE state = 1 ORDER BY time DESC;";
+				$sqlStr = "SELECT id, title, time, opened, information, image FROM news WHERE state = 1 ORDER BY time DESC;";
 			}
 			$result = $mysql_Connect->query($mysqli, $sqlStr);
 			$mysql_Connect->freeresourse($mysqli);
@@ -177,9 +177,13 @@
 							$num_chat = $chatResult->num_rows;
 
 							$stringHandle = new StringHandle();
+							$imageResourse = "images/deault_big.jpg";
+							if ($row['image'] != null) {
+								$imageResourse = $row['image'];
+							}
 							echo "<article class='excerpt excerpt-1' style=''>";
 							echo "<a class='focus' href='newsInfo.php?newsID=".$row['id']."' title='".$row['title']."' target='_blank' >";
-							echo "	<img class='thumb' data-original='images/deault_big.jpg' src='images/deault_big.jpg' alt='".$row['title']."'  style='display: inline;'>";
+							echo "	<img class='thumb' data-original='".$imageResourse."' src='".$imageResourse."' alt='".$row['title']."'  style='display: inline;'>";
 							echo "</a>";
 							echo "<header>";
 							echo "	<a class='cat' title='新闻'>新闻<i></i></a>";
@@ -276,15 +280,20 @@
 							while($row = $result->fetch_assoc()){
 								$mysql_Connect = new MysqlConnect();
 								$mysqli = $mysql_Connect->connect();
-								$sqlStr = "SELECT title FROM news WHERE id = ".$row['news_id'].";";
+								$sqlStr = "SELECT title, image FROM news WHERE id = ".$row['news_id'].";";
 								$son_result = $mysql_Connect->query($mysqli, $sqlStr);
 								$mysql_Connect->freeresourse($mysqli);
 								$son_row = $son_result->fetch_assoc();
 
+								$imageResourse = "images/deault_big.jpg";
+								if ($son_row['image'] != null) {
+									$imageResourse = $son_row['image'];
+								}
+
 								echo "<li>";
 								echo "	<a title='".$son_row['title']."' href='newsInfo.php?newsID=".$row['news_id']."' >";
 								echo "		<span class='thumbnail'>";
-								echo "			<img class='thumb' data-original='images/deault_big.jpg' src='images/deault_big.jpg' alt='".$son_row['title']."'  style='display: block;'>";
+								echo "			<img class='thumb' data-original='".$imageResourse."' src='".$imageResourse."' alt='".$son_row['title']."'  style='display: block;'>";
 								echo "		</span>";
 								echo "		<span class='text'>".$row['message']."</span>";
 								echo "		<span class='muted'><i class='glyphicon glyphicon-time'></i>".$row['time']."</span>";
