@@ -22,6 +22,22 @@
 		<link rel="stylesheet" type="text/css" href="css/nprogress.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+		<script type="text/javascript">
+			var isCheckAll = false;  
+			function swapCheck() {  
+				if (isCheckAll) {  
+					$("input[type='checkbox']").each(function() {  
+						this.checked = false;  
+					});  
+					isCheckAll = false;  
+				} else {  
+					$("input[type='checkbox']").each(function() {  
+						this.checked = true;  
+					});  
+					isCheckAll = true;  
+				} 
+			}  
+    	</script> 
 	</head>
 		<?php
 			@session_id($_GET['sid']);
@@ -73,7 +89,7 @@
 				<form id="auditForm" action="php/audit.php" method="post">
 					<input type="hidden" name="sid" value="<?php echo $sid; ?>">
 					<tr>
-						<th style="text-align:center; ">选择</th>
+						<th style="text-align:center; "><input type="checkbox" onclick="swapCheck()" /></th>
 						<th style="text-align:center; ">ID</th>
 						<th>新闻</th>
 						<th>发表时间</th>
