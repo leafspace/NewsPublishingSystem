@@ -49,7 +49,7 @@
 								</a>
 							</li>
 						</ul>
-						勤记录 懂分享
+						分享最即时的信息
 					</div>
 					<div class="navbar-header">
 						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#header-navbar" aria-expanded="false"> 
@@ -70,7 +70,11 @@
 							</div>
 						</form>
 						<ul class="nav navbar-nav navbar-right">
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php">首页</a></li>
+						<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php">首页</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=娱乐新闻">娱乐新闻</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=科技新闻">科技新闻</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=体育新闻">体育新闻</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=外国新闻">外国新闻</a></li>
 						</ul>
 					</div>
 				</div>

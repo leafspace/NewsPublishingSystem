@@ -12,6 +12,7 @@
     header("Content-type: text/html; charset=utf-8");
     $title = $_POST['title'];
     $innerCode = $_POST['innerCode'];
+    $type = $_POST['newsType'];
     $dateTime = date("Y-m-d H:i:s");
     $image = "";
     $fileName = "../upload/".date("YmdHis").generateStr();
@@ -42,8 +43,8 @@
     $stringHandle = new StringHandle();
     $mysql_Connect = new MysqlConnect();
     $mysqli = $mysql_Connect->connect();
-    $sqlStr = "INSERT INTO news(title, time, opened, information, state, image) 
-                    VALUES('".$title."', '".$dateTime."', 0, '".$stringHandle->findDivString($innerCode)."', 0, '".$image."');";
+    $sqlStr = "INSERT INTO news(title, time, opened, information, state, image, type) 
+                    VALUES('".$title."', '".$dateTime."', 0, '".$stringHandle->findDivString($innerCode)."', 0, '".$image."', '".$type."');";
     $result = $mysql_Connect->query($mysqli, $sqlStr);
     $mysql_Connect->freeresourse($mysqli);
 

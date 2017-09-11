@@ -61,8 +61,17 @@
 					<input type="text" name="title" style="width:90%; height:100%; font-size:18px;" />
 				</div>
 				<div style="width:100%; height: 35px; margin-top: 10px;">
-					<label style="font-size:18px; float:left;">图片文件：</label>
+					<label style="font-size:18px; float:left;">标题图片：</label>
 					<input type="file" name="file" id="file" style="width:90%; height:100%; font-size:18px; float:right;" />
+				</div>
+				<div style="width:100%; height: 35px; margin-top: 10px;">
+					<label style="font-size:18px; float:left;">新闻类型：</label>
+					<select name="newsType" style="width:90%; height:100%; font-size:18px; float:right;">
+						<option value="娱乐新闻">娱乐新闻</opetion>
+						<option value="科技新闻">科技新闻</opetion>
+						<option value="体育新闻">体育新闻</opetion>
+						<option value="外国新闻">外国新闻</opetion>
+					</select>
 				</div>
 				<div id='edit' style="margin-top: 15px;"></div>
 

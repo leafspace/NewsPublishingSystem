@@ -37,10 +37,21 @@
 			$mysql_Connect = new MysqlConnect();
 			$mysqli = $mysql_Connect->connect();
 			if (isset($_GET['keyword'])) {
-				$sqlStr = "SELECT id, title, time, opened, information, image FROM news WHERE state = 1 AND title LIKE '%".$_GET['keyword']."%' ORDER BY time DESC;";
+				if (isset($_GET['newstype'])) {
+					$sqlStr = "SELECT id, title, time, opened, information, image FROM news WHERE state = 1 AND type='".$_GET['newstype']."' AND title LIKE '%".$_GET['keyword']."%' ORDER BY time DESC;";
+				} else {
+					$sqlStr = "SELECT id, title, time, opened, information, image FROM news WHERE state = 1 AND title LIKE '%".$_GET['keyword']."%' ORDER BY time DESC;";
+				}
+				
 			} else {
-				$sqlStr = "SELECT id, title, time, opened, information, image FROM news WHERE state = 1 ORDER BY time DESC;";
+				if (isset($_GET['newstype'])) {
+					$sqlStr = "SELECT id, title, time, opened, information, image FROM news WHERE state = 1 AND type='".$_GET['newstype']."' ORDER BY time DESC;";
+				} else {
+					$sqlStr = "SELECT id, title, time, opened, information, image FROM news WHERE state = 1 ORDER BY time DESC;";
+				}
+				
 			}
+			
 			$result = $mysql_Connect->query($mysqli, $sqlStr);
 			$mysql_Connect->freeresourse($mysqli);
 			$num_rows = $result->num_rows;
@@ -100,7 +111,11 @@
 							</div>
 						</form>
 						<ul class="nav navbar-nav navbar-right">
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="#">首页</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php">首页</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=娱乐新闻">娱乐新闻</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=科技新闻">科技新闻</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=体育新闻">体育新闻</a></li>
+							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=外国新闻">外国新闻</a></li>
 						</ul>
 					</div>
 				</div>
@@ -141,7 +156,19 @@
 					</div>
 
 					<div class="title">
-						<h3>最新发布</h3>
+						<div style="float:left">
+							<?php
+								if (isset($_GET['newstype'])) {
+									echo "<h3>".$_GET['newstype']."</h3>";
+								} else {
+									echo "<h3>最新发布</h3>";
+								}
+							?>
+						</div>
+						<div style="float:right">
+							分类总数：<?php echo $num_rows; ?>
+						</div>
+						
 					</div>
 					<?php
 						if ($num_rows % 10 > 0) {
@@ -205,7 +232,12 @@
 								if ($index <= 1) {
 									echo "<li class='prev-page'><span>上一页</span></li>";
 								} else {
-									echo "<li class='prev-page'><a href='index.php?index=".($index - 1)."'><span>上一页</span></a></li>";
+									if (isset($_GET['newstype'])) {
+										echo "<li class='prev-page'><a href='index.php?index=".($index - 1)."&newstype=".$_GET['newstype']."'><span>上一页</span></a></li>";
+									} else {
+										echo "<li class='prev-page'><a href='index.php?index=".($index - 1)."'><span>上一页</span></a></li>";
+									}
+									
 								}
 								
 								for ($i = $index - 3; $i <= $index + 3; $i++) {
@@ -213,7 +245,12 @@
 										echo "<li class='active'><span>".$index."</span></li>";
 									} else {
 										if ($i > 0 && $i <= $pages) {
-											echo "<li><a href='index.php?index=".$i."'><span>".$i."</span></a></li>";
+											if (isset($_GET['newstype'])) {
+												echo "<li><a href='index.php?index=".$i."&newstype=".$_GET['newstype']."'><span>".$i."</span></a></li>";
+											} else {
+												echo "<li><a href='index.php?index=".$i."'><span>".$i."</span></a></li>";
+											}
+											
 										}
 									}
 								}
@@ -221,7 +258,12 @@
 								if ($index >= $pages) {
 									echo "<li class='next-page'><span>下一页</span></li>";
 								} else {
-									echo "<li class='next-page'><a href='index.php?index=".($index + 1)."'><span>下一页</span></a></li>";
+									if (isset($_GET['newstype'])) {
+										echo "<li class='next-page'><a href='index.php?index=".($index + 1)."&newstype=".$_GET['newstype']."'><span>下一页</span></a></li>";
+									} else {
+										echo "<li class='next-page'><a href='index.php?index=".($index + 1)."'><span>下一页</span></a></li>";
+									}
+									
 								}
 								echo "<li><span>共 ".$pages." 页</span></li>";
 							?>
@@ -240,7 +282,18 @@
 					</ul>
 					<div class="tab-content">
 						<div role="tabpanel" class="tab-pane contact active" id="notice">
-							<h2>日志总数:<?php echo $num_rows; ?>篇</h2>
+							<h2>
+								新闻总数:
+								<?php
+									$mysql_Connect = new MysqlConnect();
+									$mysqli = $mysql_Connect->connect();
+									$sqlStr = "SELECT * FROM news ;";
+									$result = $mysql_Connect->query($mysqli, $sqlStr);
+									$mysql_Connect->freeresourse($mysqli);
+									$num_rows = $result->num_rows;
+									echo $num_rows;
+								?>篇
+							</h2>
 							<h2>网站运行:<span id="sitetime"><?php echo(rand(10, 100)); ?>天 </span></h2>
 						</div>
 						<div role="tabpanel" class="tab-pane contact" id="contact">
