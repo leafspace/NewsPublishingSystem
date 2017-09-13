@@ -81,11 +81,7 @@
 				</div>
 			</form>
 		</section>
-
-		<footer class="footer" style="position: fixed; bottom: 0; width: 100%; ">
-			<div class="container"><p>Copyright &copy; 2016.Company name All rights reserved.<a target="_blank" href="index.php">在线新闻提交系统</a></p></div>
-			<div id="gotop"><a class="gotop"></a></div>
-		</footer>
+		<div id="gotop"><a class="gotop"></a></div>
 	</body>
 
 	<script type="text/javascript" src="js/jquery-1.10.2.js"></script>

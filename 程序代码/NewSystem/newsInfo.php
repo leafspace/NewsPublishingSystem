@@ -90,7 +90,7 @@
 
 			$mysql_Connect = new MysqlConnect();
 			$mysqli = $mysql_Connect->connect();
-			$sqlStr = "SELECT title, time, opened, information, image FROM news WHERE id = ".$newsID.";";
+			$sqlStr = "SELECT title, time, opened, information, image, type FROM news WHERE id = ".$newsID.";";
 			$result = $mysql_Connect->query($mysqli, $sqlStr);
 			$mysql_Connect->freeresourse($mysqli);
 			$row = $result->fetch_assoc();
@@ -118,7 +118,7 @@
 							</span> 
 							<span class="item article-meta-category" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="即时新闻">
 								<i class="glyphicon glyphicon-list"></i> 
-								<a href="#" title="即时新闻" >即时新闻</a>
+								<a href="#" title="即时新闻" ><?php echo $row['type']; ?></a>
 							</span> 
 							<span class="item article-meta-views" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="浏览量：<?php echo $row['opened']; ?>">
 								<i class="glyphicon glyphicon-eye-open"></i> <?php echo $row['opened']; ?>
@@ -144,7 +144,7 @@
 					<div class="article-tags">
 						标签：
 						<a href="#list/3/" rel="tag" >在线新闻发布系统</a>
-						<a href="#list/4/" rel="tag" >即时信息</a>
+						<a href="#list/4/" rel="tag" ><?php echo $row['type']; ?></a>
 						<a href="#list/5/" rel="tag" >游客</a>
 					</div>
 					<div class="relates">
