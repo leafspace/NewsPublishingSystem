@@ -58,7 +58,10 @@
 			<form id="editForm" action="php/editUpdate.php" method="post" enctype="multipart/form-data" >
 				<div style="width:100%; height: 35px; margin-top: 10px;">
 					<label style="font-size:18px">标题：</label>
-					<input type="text" name="title" style="width:90%; height:100%; font-size:18px;" />
+					<input type="text" name="title" style="width:40%; height:100%; font-size:18px;" />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<label style="font-size:18px">发布用户：</label>
+					<input type="text" name="username" style="width:40%; height:100%; font-size:18px;" />
 				</div>
 				<div style="width:100%; height: 35px; margin-top: 10px;">
 					<label style="font-size:18px; float:left;">标题图片：</label>

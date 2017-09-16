@@ -90,7 +90,7 @@
 
 			$mysql_Connect = new MysqlConnect();
 			$mysqli = $mysql_Connect->connect();
-			$sqlStr = "SELECT title, time, opened, information, image, type FROM news WHERE id = ".$newsID.";";
+			$sqlStr = "SELECT title, time, opened, information, image, type, username FROM news WHERE id = ".$newsID.";";
 			$result = $mysql_Connect->query($mysqli, $sqlStr);
 			$mysql_Connect->freeresourse($mysqli);
 			$row = $result->fetch_assoc();
@@ -145,7 +145,7 @@
 						标签：
 						<a href="#list/3/" rel="tag" >在线新闻发布系统</a>
 						<a href="#list/4/" rel="tag" ><?php echo $row['type']; ?></a>
-						<a href="#list/5/" rel="tag" >游客</a>
+						<a href="#list/5/" rel="tag" ><?php  echo $row['username'] ?></a>
 					</div>
 					<div class="relates">
 						<div class="title"><h3>相关推荐</h3></div>
@@ -174,7 +174,7 @@
 						<form id="comment-form" name="comment-form" action="php/comment.php" method="post">
 							<div class="comment">
 								<input type="hidden" name="newsID" value="<?php echo $newsID;?>" >
-								<input name="username" id="" class="form-control" size="22" value="在线新闻发布系统-游客" readonly="readonly" maxlength="15" autocomplete="off" tabindex="1" type="text">
+								<input name="username" id="" class="form-control" size="22" placeholder="您的昵称" maxlength="15" autocomplete="off" tabindex="1" type="text">
 								<input name="email" id="" class="form-control" size="22" placeholder="您的网址或邮箱（非必填）" maxlength="58" autocomplete="off" tabindex="2" type="text">
 								<div class="comment-box">
 									<textarea placeholder="您的评论或留言（必填）" name="comment-textarea" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
@@ -199,7 +199,7 @@
 							<?php
 								$mysql_Connect = new MysqlConnect();
 								$mysqli = $mysql_Connect->connect();
-								$sqlStr = "SELECT message, time FROM chat WHERE news_id = ".$newsID." ORDER BY time DESC;";
+								$sqlStr = "SELECT message, time, username FROM chat WHERE news_id = ".$newsID." ORDER BY time DESC;";
 								$result = $mysql_Connect->query($mysqli, $sqlStr);
 								$mysql_Connect->freeresourse($mysqli);
 
@@ -209,7 +209,7 @@
 									echo "	<span class='comment-f'>#".$i--."</span>";
 									echo "	<div class='comment-main'>";
 									echo "		<p>";
-									echo "			<a class='address' href='#' rel='nofollow' target='_blank'>在线新闻发布系统-游客</a>";
+									echo "			<a class='address' href='#' rel='nofollow' target='_blank'>".$row['username']."</a>";
 									echo "			<span class='time'>".$row['time']."</span><br>";
 									echo "			".$row['message']."";
 									echo "		</p>";

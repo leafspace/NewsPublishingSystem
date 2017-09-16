@@ -4,10 +4,14 @@
         Header("Location: $url"); 
     }
     
+    $username = $_POST['username'];
+    if ($username == "") {
+        $username = "在线新闻发布系统-游客";
+    }
     require_once 'Classes/MysqlConnect.php';
     $mysql_Connect = new MysqlConnect();
     $mysqli = $mysql_Connect->connect();
-    $sqlStr = "INSERT INTO chat VALUES(".$_POST['newsID'].", '".$_POST['comment-textarea']."', '".date("Y-m-d H:i:s")."');";
+    $sqlStr = "INSERT INTO chat VALUES(".$_POST['newsID'].", '".$_POST['comment-textarea']."', '".date("Y-m-d H:i:s")."', '".$username."');";
     $result = $mysql_Connect->query($mysqli, $sqlStr);
     $mysql_Connect->freeresourse($mysqli);
 

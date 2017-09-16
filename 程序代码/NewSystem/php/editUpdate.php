@@ -11,6 +11,7 @@
     error_reporting(E_ALL^E_NOTICE^E_WARNING^E_DEPRECATED);
     header("Content-type: text/html; charset=utf-8");
     $title = $_POST['title'];
+    $username = $_POST['username'];
     $innerCode = $_POST['innerCode'];
     $type = $_POST['newsType'];
     $dateTime = date("Y-m-d H:i:s");
@@ -38,13 +39,17 @@
         echo "Invalid file";
     }
 
+    if ($username == "") {
+        $username = "在线新闻发布系统-游客";
+    }
+
     require_once 'Classes/MysqlConnect.php';
     require_once 'Classes/StringHandle.php';
     $stringHandle = new StringHandle();
     $mysql_Connect = new MysqlConnect();
     $mysqli = $mysql_Connect->connect();
-    $sqlStr = "INSERT INTO news(title, time, opened, information, state, image, type) 
-                    VALUES('".$title."', '".$dateTime."', 0, '".$stringHandle->findDivString($innerCode)."', 0, '".$image."', '".$type."');";
+    $sqlStr = "INSERT INTO news(title, time, opened, information, state, image, type, username) 
+                    VALUES('".$title."', '".$dateTime."', 0, '".$stringHandle->findDivString($innerCode)."', 0, '".$image."', '".$type."', '".$username."');";
     $result = $mysql_Connect->query($mysqli, $sqlStr);
     $mysql_Connect->freeresourse($mysqli);
 

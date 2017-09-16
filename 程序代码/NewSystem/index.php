@@ -85,6 +85,11 @@
 								?>
 							</li>
 							<li>
+								<a href="editNews.php" title="编辑新闻" >
+									<i class="fa fa-edit"></i> <span style="color:#00FF00">编辑新闻</span>
+								</a>
+							</li>
+							<li>
 								<a href="#" title="RSS订阅" >
 									<i class="fa fa-rss"></i> RSS订阅
 								</a>
@@ -274,36 +279,7 @@
 
 			<aside class="sidebar">
 				<div class="fixed">
-					<div class="widget widget-tabs">
-					<ul class="nav nav-tabs" role="tablist">
-						<li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" >统计信息</a></li>
-						<li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" >联系站长</a></li>
-						<li style="background:#00DB00;"><a href="editNews.php" aria-controls="contact" style="color:#FFFFFF">编辑新闻</a></li>
-					</ul>
-					<div class="tab-content">
-						<div role="tabpanel" class="tab-pane contact active" id="notice">
-							<h2>
-								新闻总数:
-								<?php
-									$mysql_Connect = new MysqlConnect();
-									$mysqli = $mysql_Connect->connect();
-									$sqlStr = "SELECT * FROM news ;";
-									$result = $mysql_Connect->query($mysqli, $sqlStr);
-									$mysql_Connect->freeresourse($mysqli);
-									$num_rows = $result->num_rows;
-									echo $num_rows;
-								?>篇
-							</h2>
-							<h2>网站运行:<span id="sitetime"><?php echo(rand(10, 100)); ?>天 </span></h2>
-						</div>
-						<div role="tabpanel" class="tab-pane contact" id="contact">
-							<h2>Email:18123456789@163.com
-								<a href="#" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title=""  data-original-title="#"></a>
-							</h2>
-						</div>
-					</div>
-					</div>
-						<div class="widget widget_search">
+					<div class="widget widget_search">
 						<form class="navbar-form" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get">
 							<div class="input-group">
 								<input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
