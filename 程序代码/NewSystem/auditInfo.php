@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN">
 	<head>
-		<title>新闻发布系统</title>
+		<title>无差别在线新闻</title>
 		<link rel="stylesheet" type="text/css" href="css/froala_editor.min.css">
 		<link rel="stylesheet" type="text/css" href="css/font-awesome.4.6.0.css">
 		<style>
@@ -64,7 +64,7 @@
 							<span class="icon-bar"></span> 
 							<span class="icon-bar"></span> 
 						</button>
-						<h1 class="logo hvr-bounce-in"><a href="#" title="在线新闻发布系统"><img src="" alt="在线新闻发布系统"></a></h1>
+						<h1 class="logo hvr-bounce-in"><a href="#" title="无差别在线新闻网"><img src="" alt="无差别在线新闻网"></a></h1>
 					</div>
 					<div class="collapse navbar-collapse" id="header-navbar">
 						<form class="navbar-form visible-xs" action="/Search" method="post">
@@ -77,7 +77,7 @@
 						</form>
 						<ul class="nav navbar-nav navbar-right">
 							<?php echo "<li><a>$username</a></li>"; ?>
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php">首页</a></li>
+							<li><a data-cont="无差别在线新闻网" title="无差别在线新闻网" href="index.php">首页</a></li>
 						</ul>
 					</div>
 				</div>

@@ -6,7 +6,7 @@
     
     $username = $_POST['username'];
     if ($username == "") {
-        $username = "在线新闻发布系统-游客";
+        $username = "无差别在线新闻网-游客";
     }
     require_once 'Classes/MysqlConnect.php';
     $mysql_Connect = new MysqlConnect();

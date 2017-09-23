@@ -11,21 +11,16 @@
         returnBack();
     }
 
-    error_reporting(E_ALL^E_NOTICE^E_WARNING^E_DEPRECATED);
-    define("mysql_server_name", "localhost");
-    define("mysql_username", "root");
-    define("mysql_password", "123456");
-
-    $mysqli = new mysqli();
-    $mysqli->connect($mysql_server_name, $mysql_username, $mysql_password, 'news_system');
+    require_once 'Classes/MysqlConnect.php';
+    $mysql_Connect = new MysqlConnect();
+    $mysqli = $mysql_Connect->connect();
     if (mysqli_connect_error()) {
         echo mysqli_connect_error();
         returnBack();
     }
-    $mysqli->set_charset("utf8");
-    
     $sqlStr = "SELECT * FROM user WHERE username = '".$username."' AND `password` = '".$password."';";
-    $result = $mysqli->query($sqlStr);
+    $result = $mysql_Connect->query($mysqli, $sqlStr);
+    
     if ($result === false) {
         echo $mysqli->error;
         returnBack();
@@ -43,5 +38,5 @@
     } else {
         returnBack();
     }
-    $mysqli->close();
+    $mysql_Connect->freeresourse($mysqli);
 ?>

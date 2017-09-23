@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-CN">
 	<head>
-		<title>新闻发布系统</title>
+		<title>无差别在线新闻</title>
 		<meta charset="utf-8">
 		<meta name="renderer" content="webkit">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -104,7 +104,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<h1 class="logo hvr-bounce-in"><a href="#" title="在线新闻发布系统"><img src="" alt="在线新闻发布系统"></a></h1>
+						<h1 class="logo hvr-bounce-in"><a href="#" title="无差别在线新闻网"><img src="" alt="无差别在线新闻网"></a></h1>
 					</div>
 					<div class="collapse navbar-collapse" id="header-navbar">
 						<form class="navbar-form visible-xs" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
@@ -116,11 +116,11 @@
 							</div>
 						</form>
 						<ul class="nav navbar-nav navbar-right">
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php">首页</a></li>
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=娱乐新闻">娱乐新闻</a></li>
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=科技新闻">科技新闻</a></li>
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=体育新闻">体育新闻</a></li>
-							<li><a data-cont="在线新闻发布系统" title="在线新闻发布系统" href="index.php?newstype=外国新闻">外国新闻</a></li>
+							<li><a data-cont="无差别在线新闻网" title="无差别在线新闻网" href="index.php">首页</a></li>
+							<li><a data-cont="无差别在线新闻网" title="无差别在线新闻网" href="index.php?newstype=娱乐新闻">娱乐新闻</a></li>
+							<li><a data-cont="无差别在线新闻网" title="无差别在线新闻网" href="index.php?newstype=科技新闻">科技新闻</a></li>
+							<li><a data-cont="无差别在线新闻网" title="无差别在线新闻网" href="index.php?newstype=体育新闻">体育新闻</a></li>
+							<li><a data-cont="无差别在线新闻网" title="无差别在线新闻网" href="index.php?newstype=外国新闻">外国新闻</a></li>
 						</ul>
 					</div>
 				</div>
@@ -138,16 +138,16 @@
 						</ol>
 						<div class="carousel-inner" role="listbox">
 							<div class="item active">
-								<a href="#" target="_blank" title="在线新闻发布系统" >
-								<img src="images//advertising1.jpg" alt="在线新闻发布系统" class="img-responsive"></a>
+								<a href="#" target="_blank" title="无差别在线新闻网" >
+								<img src="images//advertising1.jpg" alt="无差别在线新闻网" class="img-responsive"></a>
 							</div>
 							<div class="item">
-								<a href="#" target="_blank" title="在线新闻发布系统" >
-								<img src="images//advertising2.jpg" alt="在线新闻发布系统" class="img-responsive"></a>
+								<a href="#" target="_blank" title="无差别在线新闻网" >
+								<img src="images//advertising2.jpg" alt="无差别在线新闻网" class="img-responsive"></a>
 							</div>
 							<div class="item">
-								<a href="#" target="_blank" title="在线新闻发布系统" >
-								<img src="images//advertising3.jpg" alt="在线新闻发布系统" class="img-responsive"></a>
+								<a href="#" target="_blank" title="无差别在线新闻网" >
+								<img src="images//advertising3.jpg" alt="无差别在线新闻网" class="img-responsive"></a>
 							</div>
 						</div>
 						<a class="left carousel-control" href="#focusslide" role="button" data-slide="prev" rel="nofollow"> 
